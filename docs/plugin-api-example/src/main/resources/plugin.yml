@@ -1,0 +1,26 @@
+name: TneApiExample
+version: 1.0.0
+main: example.TneApiExample
+api-version: "26.1"
+folia-supported: true
+depend: [TheNewerEconomy]
+commands:
+  tneexamplebalance:
+    description: Read your TNE balance through the native API.
+    usage: /tneexamplebalance [currency]
+    permission: tneexample.balance
+  tneexamplepool:
+    description: Operator tools for named TNE accounts and funded payments.
+    usage: /tneexamplepool
+    permission: tneexample.pool
+  tneexampleapi:
+    description: Operator examples for invoices, quotes, notes, queries, and menus.
+    usage: /tneexampleapi
+    permission: tneexample.api
+permissions:
+  tneexample.balance:
+    default: true
+  tneexample.pool:
+    default: op
+  tneexample.api:
+    default: op
