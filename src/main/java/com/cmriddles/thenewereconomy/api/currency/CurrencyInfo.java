@@ -13,14 +13,16 @@ import java.util.Objects;
  * @param symbol configured display symbol
  * @param scale number of fractional digits supported, from 0 through 18
  */
-public record CurrencyInfo(String id, String singularName, String pluralName, String symbol, int scale) {
+public record CurrencyInfo(
+        String id, String singularName, String pluralName, String symbol, int scale) {
     public CurrencyInfo {
         id = new CurrencyId(id).value();
         singularName = requireText(singularName, "singularName");
         pluralName = requireText(pluralName, "pluralName");
         symbol = requireText(symbol, "symbol");
         if (scale < 0 || scale > MonetaryAmount.MAX_SCALE) {
-            throw new ValidationException("Currency scale must be between 0 and " + MonetaryAmount.MAX_SCALE);
+            throw new ValidationException(
+                    "Currency scale must be between 0 and " + MonetaryAmount.MAX_SCALE);
         }
     }
 

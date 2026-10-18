@@ -1,8 +1,12 @@
 # Account controls, delegated budgets, refunds, and disputes
 
+Control accounts your integration owns, delegate spending, and record refunds or disputes.
+
+[Setup](getting-started.md) | [Guide index](API.md) | [Payments](payments.md) | [Reference](reference.md)
+
 These services are available from a native `EconomyClient` in TNE **1.0.64 or
 later**. Obtain `TneApi` through Bukkit's services manager as described in the
-[main API guide](API.md), then create your client with `api.client(getName())`.
+[setup](getting-started.md), then create your client with `api.client(getName())`.
 Use Java 25 and the provided/compile-only TNE API dependency.
 
 All service methods return `CompletionStage<Result<T>>`. Check exceptional

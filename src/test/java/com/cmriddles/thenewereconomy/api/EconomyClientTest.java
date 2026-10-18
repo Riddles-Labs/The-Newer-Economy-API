@@ -6,8 +6,8 @@ import com.cmriddles.thenewereconomy.api.account.AccountRef;
 import com.cmriddles.thenewereconomy.api.account.AccountService;
 import com.cmriddles.thenewereconomy.api.currency.CurrencyInfo;
 import com.cmriddles.thenewereconomy.api.currency.ScopeId;
-import com.cmriddles.thenewereconomy.api.economy.Balance;
 import com.cmriddles.thenewereconomy.api.economy.AccountBalance;
+import com.cmriddles.thenewereconomy.api.economy.Balance;
 import com.cmriddles.thenewereconomy.api.economy.Transaction;
 import com.cmriddles.thenewereconomy.api.economy.TransactionReceipt;
 import com.cmriddles.thenewereconomy.api.economy.TransactionRequest;
@@ -36,13 +36,17 @@ class EconomyClientTest {
 
         assertThat(client.transfer(payer, recipient, amount, "order:17"))
                 .isSameAs(client.transactionResult);
-        assertThat(client.lastCall).isEqualTo(new Call("transfer", payer, recipient, "gems", amount, "order:17"));
+        assertThat(client.lastCall)
+                .isEqualTo(new Call("transfer", payer, recipient, "gems", amount, "order:17"));
 
-        assertThat(client.deposit(recipient, amount, "reward:18")).isSameAs(client.transactionResult);
-        assertThat(client.lastCall).isEqualTo(new Call("deposit", recipient, null, "gems", amount, "reward:18"));
+        assertThat(client.deposit(recipient, amount, "reward:18"))
+                .isSameAs(client.transactionResult);
+        assertThat(client.lastCall)
+                .isEqualTo(new Call("deposit", recipient, null, "gems", amount, "reward:18"));
 
         assertThat(client.withdraw(payer, amount, "shop:19")).isSameAs(client.transactionResult);
-        assertThat(client.lastCall).isEqualTo(new Call("withdraw", payer, null, "gems", amount, "shop:19"));
+        assertThat(client.lastCall)
+                .isEqualTo(new Call("withdraw", payer, null, "gems", amount, "shop:19"));
     }
 
     @Test
@@ -53,35 +57,66 @@ class EconomyClientTest {
         AccountRef player = AccountRef.player(playerId);
         BigDecimal amount = new BigDecimal("12.50");
 
-        assertThat(client.transfer(pool, player, amount, "pool:pay:1")).isSameAs(client.transactionResult);
-        assertThat(client.lastAccountCall).isEqualTo(new AccountCall("transfer", pool, player, "gems", amount, "pool:pay:1"));
+        assertThat(client.transfer(pool, player, amount, "pool:pay:1"))
+                .isSameAs(client.transactionResult);
+        assertThat(client.lastAccountCall)
+                .isEqualTo(new AccountCall("transfer", pool, player, "gems", amount, "pool:pay:1"));
 
-        assertThat(client.pay(pool, playerId, amount, "pool:pay:2")).isSameAs(client.transactionResult);
-        assertThat(client.lastAccountCall).isEqualTo(new AccountCall("transfer", pool, player, "gems", amount, "pool:pay:2"));
+        assertThat(client.pay(pool, playerId, amount, "pool:pay:2"))
+                .isSameAs(client.transactionResult);
+        assertThat(client.lastAccountCall)
+                .isEqualTo(new AccountCall("transfer", pool, player, "gems", amount, "pool:pay:2"));
 
-        assertThat(client.pay(pool, playerId, "coins", amount, "pool:pay:3")).isSameAs(client.transactionResult);
-        assertThat(client.lastAccountCall).isEqualTo(new AccountCall("transfer", pool, player, "coins", amount, "pool:pay:3"));
+        assertThat(client.pay(pool, playerId, "coins", amount, "pool:pay:3"))
+                .isSameAs(client.transactionResult);
+        assertThat(client.lastAccountCall)
+                .isEqualTo(
+                        new AccountCall("transfer", pool, player, "coins", amount, "pool:pay:3"));
 
-        assertThat(client.charge(playerId, pool, amount, "pool:charge:1")).isSameAs(client.transactionResult);
-        assertThat(client.lastAccountCall).isEqualTo(new AccountCall("transfer", player, pool, "gems", amount, "pool:charge:1"));
+        assertThat(client.charge(playerId, pool, amount, "pool:charge:1"))
+                .isSameAs(client.transactionResult);
+        assertThat(client.lastAccountCall)
+                .isEqualTo(
+                        new AccountCall("transfer", player, pool, "gems", amount, "pool:charge:1"));
 
-        assertThat(client.charge(playerId, pool, "coins", amount, "pool:charge:2")).isSameAs(client.transactionResult);
-        assertThat(client.lastAccountCall).isEqualTo(new AccountCall("transfer", player, pool, "coins", amount, "pool:charge:2"));
+        assertThat(client.charge(playerId, pool, "coins", amount, "pool:charge:2"))
+                .isSameAs(client.transactionResult);
+        assertThat(client.lastAccountCall)
+                .isEqualTo(
+                        new AccountCall(
+                                "transfer", player, pool, "coins", amount, "pool:charge:2"));
 
         assertThat(client.balance(pool)).isSameAs(client.accountBalanceResult);
-        assertThat(client.lastAccountCall).isEqualTo(new AccountCall("balance", pool, null, "gems", null, null));
+        assertThat(client.lastAccountCall)
+                .isEqualTo(new AccountCall("balance", pool, null, "gems", null, null));
 
         assertThat(client.balances(playerId)).isSameAs(client.accountBalancesResult);
-        assertThat(client.lastAccountCall).isEqualTo(new AccountCall("balances", player, null, null, null, null));
+        assertThat(client.lastAccountCall)
+                .isEqualTo(new AccountCall("balances", player, null, null, null, null));
     }
 
-    private record Call(String operation, UUID player, UUID recipient, String currency, BigDecimal amount, String key) { }
-    private record AccountCall(String operation, AccountRef source, AccountRef destination,
-            String currency, BigDecimal amount, String key) { }
+    private record Call(
+            String operation,
+            UUID player,
+            UUID recipient,
+            String currency,
+            BigDecimal amount,
+            String key) {}
+
+    private record AccountCall(
+            String operation,
+            AccountRef source,
+            AccountRef destination,
+            String currency,
+            BigDecimal amount,
+            String key) {}
 
     private static final class RecordingClient implements EconomyClient {
-        private final Failure unavailable = new Failure(ResultCode.DEPENDENCY_UNAVAILABLE,
-                "Not ready", new CorrelationId(UUID.randomUUID()));
+        private final Failure unavailable =
+                new Failure(
+                        ResultCode.DEPENDENCY_UNAVAILABLE,
+                        "Not ready",
+                        new CorrelationId(UUID.randomUUID()));
         private final CompletionStage<Result<Balance>> balanceResult =
                 CompletableFuture.completedFuture(Result.failure(unavailable));
         private final CompletionStage<Result<Transaction>> transactionResult =
@@ -119,7 +154,8 @@ class EconomyClientTest {
         }
 
         @Override
-        public CompletionStage<Result<Optional<TransactionReceipt>>> receipt(String idempotencyKey) {
+        public CompletionStage<Result<Optional<TransactionReceipt>>> receipt(
+                String idempotencyKey) {
             throw new UnsupportedOperationException("Not used by overload routing tests");
         }
 
@@ -129,17 +165,20 @@ class EconomyClientTest {
         }
 
         @Override
-        public CompletionStage<Result<List<TransactionReceipt>>> history(AccountRef reference, int limit, int offset) {
+        public CompletionStage<Result<List<TransactionReceipt>>> history(
+                AccountRef reference, int limit, int offset) {
             throw new UnsupportedOperationException("Not used by overload routing tests");
         }
 
         @Override
-        public CompletionStage<Result<TransactionReceipt>> reverse(UUID original, String reason, String key) {
+        public CompletionStage<Result<TransactionReceipt>> reverse(
+                UUID original, String reason, String key) {
             throw new UnsupportedOperationException("Not used by overload routing tests");
         }
 
         @Override
-        public CompletionStage<Result<AccountBalance>> balance(AccountRef reference, String currencyId) {
+        public CompletionStage<Result<AccountBalance>> balance(
+                AccountRef reference, String currencyId) {
             lastAccountCall = new AccountCall("balance", reference, null, currencyId, null, null);
             return accountBalanceResult;
         }
@@ -152,8 +191,14 @@ class EconomyClientTest {
 
         @Override
         public CompletionStage<Result<Transaction>> transfer(
-                AccountRef source, AccountRef destination, String currencyId, BigDecimal amount, String idempotencyKey) {
-            lastAccountCall = new AccountCall("transfer", source, destination, currencyId, amount, idempotencyKey);
+                AccountRef source,
+                AccountRef destination,
+                String currencyId,
+                BigDecimal amount,
+                String idempotencyKey) {
+            lastAccountCall =
+                    new AccountCall(
+                            "transfer", source, destination, currencyId, amount, idempotencyKey);
             return transactionResult;
         }
 
@@ -170,8 +215,19 @@ class EconomyClientTest {
 
         @Override
         public CompletionStage<Result<Transaction>> transfer(
-                UUID fromPlayerId, UUID toPlayerId, String currencyId, BigDecimal amount, String idempotencyKey) {
-            lastCall = new Call("transfer", fromPlayerId, toPlayerId, currencyId, amount, idempotencyKey);
+                UUID fromPlayerId,
+                UUID toPlayerId,
+                String currencyId,
+                BigDecimal amount,
+                String idempotencyKey) {
+            lastCall =
+                    new Call(
+                            "transfer",
+                            fromPlayerId,
+                            toPlayerId,
+                            currencyId,
+                            amount,
+                            idempotencyKey);
             return transactionResult;
         }
 

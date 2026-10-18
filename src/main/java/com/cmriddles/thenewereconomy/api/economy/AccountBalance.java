@@ -19,7 +19,8 @@ import java.util.Objects;
  * @param amount exact decimal balance preserving the currency's configured precision
  * @param version ledger version at the time of the read, useful for diagnostics
  */
-public record AccountBalance(Account account, String currency, ScopeId scope, BigDecimal amount, long version) {
+public record AccountBalance(
+        Account account, String currency, ScopeId scope, BigDecimal amount, long version) {
     public AccountBalance {
         Objects.requireNonNull(account, "account");
         currency = new CurrencyId(currency).value();

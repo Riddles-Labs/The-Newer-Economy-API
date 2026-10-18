@@ -1,5 +1,9 @@
 # Events, policies, external providers, and testing
 
+Add event handling, payment policies, and external currency adapters after the core integration works.
+
+[Setup](getting-started.md) | [Guide index](API.md) | [Payments](payments.md) | [Reference](reference.md)
+
 TNE 1.0.64 adds these services to the existing asynchronous client:
 
 ```java

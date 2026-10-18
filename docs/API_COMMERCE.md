@@ -1,6 +1,10 @@
 # Invoices, exchange, notes, queries, and native presentation
 
-Use the same `EconomyClient` from the [quick start](API.md). These services need
+Use player-approved invoices, saved conversion quotes, physical notes, and native views.
+
+[Setup](getting-started.md) | [Guide index](API.md) | [Payments](payments.md) | [Workflows](API_WORKFLOWS.md)
+
+Use the same `EconomyClient` from the [setup](getting-started.md). These services need
 TNE 1.0.64 and Java 25. Every method returns an asynchronous `Result`; check both
 exceptional completion and `isSuccess()` before reading its value. Examples show
 the individual API call; use the shared completion helper in the example plugin

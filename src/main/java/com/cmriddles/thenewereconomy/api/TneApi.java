@@ -2,14 +2,16 @@ package com.cmriddles.thenewereconomy.api;
 
 import com.cmriddles.thenewereconomy.api.currency.CurrencyInfo;
 import com.cmriddles.thenewereconomy.api.currency.ScopeId;
+import com.cmriddles.thenewereconomy.api.extension.ApiCapabilities;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Entry point for another plugin to use TNE without depending on its implementation modules.
  *
- * <p>On Paper/Folia, obtain this interface from Bukkit's services manager. Use {@link #client(String)}
- * once with your plugin's stable name, then use that client for balance reads and payments. Do not
- * construct TNE implementation classes or shade this API into your plugin.
+ * <p>On Paper/Folia, obtain this interface from Bukkit's services manager. Use {@link
+ * #client(String)} once with your plugin's stable name, then use that client for balance reads and
+ * payments. Do not construct TNE implementation classes or shade this API into your plugin.
  *
  * <p>Metadata methods read configuration already held in memory; they perform no database work.
  * Money operations belong to {@link EconomyClient} and return asynchronous results. No Bukkit or
@@ -27,9 +29,11 @@ public interface TneApi {
      */
     boolean isAvailable();
 
-    /** @return the provider's supported native integration features */
-    default com.cmriddles.thenewereconomy.api.extension.ApiCapabilities capabilities() {
-        return new com.cmriddles.thenewereconomy.api.extension.ApiCapabilities("1.0.63", java.util.Set.of("accounts", "payments", "receipts", "history"));
+    /**
+     * @return the provider's supported native integration features
+     */
+    default ApiCapabilities capabilities() {
+        return new ApiCapabilities("1.0.63", Set.of("accounts", "payments", "receipts", "history"));
     }
 
     /**
@@ -48,8 +52,8 @@ public interface TneApi {
     ScopeId defaultScope();
 
     /**
-     * Lists virtual currencies available to this server's configured scope.
-     * Item-backed and experience-backed currencies are not handled by this API.
+     * Lists virtual currencies available to this server's configured scope. Item-backed and
+     * experience-backed currencies are not handled by this API.
      *
      * @return an immutable snapshot; the list is not filtered using any player's permissions
      */
@@ -62,9 +66,11 @@ public interface TneApi {
      * recorded for transaction auditing and isolates this integration's idempotency keys. It is
      * declared attribution, not authentication or a player permission check.
      *
-     * @param integrationName stable, nonblank integration name with 1 to 128 characters and no control characters
+     * @param integrationName stable, nonblank integration name with 1 to 128 characters and no
+     *     control characters
      * @return a client using this server's default currency and scope
-     * @throws IllegalArgumentException if the name is blank, too long, or contains control characters
+     * @throws IllegalArgumentException if the name is blank, too long, or contains control
+     *     characters
      * @throws NullPointerException if the name is null
      */
     EconomyClient client(String integrationName);

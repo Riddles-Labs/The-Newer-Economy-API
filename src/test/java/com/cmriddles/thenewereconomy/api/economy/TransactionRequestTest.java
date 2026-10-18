@@ -27,24 +27,45 @@ class TransactionRequestTest {
 
         assertThat(request.payments()).containsExactly(payment);
         assertThat(request.metadata()).containsExactlyEntriesOf(Map.of("order", "17"));
-        assertThatThrownBy(() -> request.payments().clear()).isInstanceOf(UnsupportedOperationException.class);
-        assertThatThrownBy(() -> request.metadata().clear()).isInstanceOf(UnsupportedOperationException.class);
+        assertThatThrownBy(() -> request.payments().clear())
+                .isInstanceOf(UnsupportedOperationException.class);
+        assertThatThrownBy(() -> request.metadata().clear())
+                .isInstanceOf(UnsupportedOperationException.class);
 
-        TransactionEntry debit = new TransactionEntry(payment.source(), "Pool", payment.currency(),
-                ScopeId.network(), payment.amount().negate());
-        TransactionEntry credit = new TransactionEntry(payment.destination(), "Player", payment.currency(),
-                ScopeId.network(), payment.amount());
+        TransactionEntry debit =
+                new TransactionEntry(
+                        payment.source(),
+                        "Pool",
+                        payment.currency(),
+                        ScopeId.network(),
+                        payment.amount().negate());
+        TransactionEntry credit =
+                new TransactionEntry(
+                        payment.destination(),
+                        "Player",
+                        payment.currency(),
+                        ScopeId.network(),
+                        payment.amount());
         List<TransactionEntry> entries = new ArrayList<>(List.of(debit, credit));
         Map<String, String> audit = new HashMap<>(Map.of("integrationName", "Example"));
-        TransactionReceipt receipt = new TransactionReceipt(UUID.randomUUID(), UUID.randomUUID(), "Example", "order:17",
-                Instant.parse("2026-10-17T00:00:00Z"), entries, audit);
+        TransactionReceipt receipt =
+                new TransactionReceipt(
+                        UUID.randomUUID(),
+                        UUID.randomUUID(),
+                        "Example",
+                        "order:17",
+                        Instant.parse("2026-10-17T00:00:00Z"),
+                        entries,
+                        audit);
         entries.clear();
         audit.clear();
 
         assertThat(receipt.entries()).containsExactly(debit, credit);
         assertThat(receipt.metadata()).containsEntry("integrationName", "Example");
-        assertThatThrownBy(() -> receipt.entries().clear()).isInstanceOf(UnsupportedOperationException.class);
-        assertThatThrownBy(() -> receipt.metadata().clear()).isInstanceOf(UnsupportedOperationException.class);
+        assertThatThrownBy(() -> receipt.entries().clear())
+                .isInstanceOf(UnsupportedOperationException.class);
+        assertThatThrownBy(() -> receipt.metadata().clear())
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 
     @Test
@@ -64,9 +85,19 @@ class TransactionRequestTest {
                 .isInstanceOf(ValidationException.class);
         assertThatThrownBy(() -> new TransactionRequest(List.of(), "batch:empty"))
                 .isInstanceOf(ValidationException.class);
-        assertThatThrownBy(() -> new TransactionRequest(List.of(payment()), "batch:3", Map.of("key", "v".repeat(513))))
+        assertThatThrownBy(
+                        () ->
+                                new TransactionRequest(
+                                        List.of(payment()),
+                                        "batch:3",
+                                        Map.of("key", "v".repeat(513))))
                 .isInstanceOf(ValidationException.class);
-        assertThatThrownBy(() -> new TransactionRequest(List.of(payment()), "batch:4", Map.of("k".repeat(65), "value")))
+        assertThatThrownBy(
+                        () ->
+                                new TransactionRequest(
+                                        List.of(payment()),
+                                        "batch:4",
+                                        Map.of("k".repeat(65), "value")))
                 .isInstanceOf(ValidationException.class);
         metadata.put("seventeenth", "value");
         assertThatThrownBy(() -> new TransactionRequest(List.of(payment()), "batch:5", metadata))
@@ -74,7 +105,10 @@ class TransactionRequestTest {
     }
 
     private static Payment payment() {
-        return new Payment(AccountRef.account(UUID.randomUUID()), AccountRef.player(UUID.randomUUID()),
-                "coins", new BigDecimal("12.50"));
+        return new Payment(
+                AccountRef.account(UUID.randomUUID()),
+                AccountRef.player(UUID.randomUUID()),
+                "coins",
+                new BigDecimal("12.50"));
     }
 }

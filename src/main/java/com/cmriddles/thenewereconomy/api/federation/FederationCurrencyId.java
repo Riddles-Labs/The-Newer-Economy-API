@@ -8,7 +8,8 @@ import java.util.regex.Pattern;
 public record FederationCurrencyId(String value) {
     private static final Pattern PATTERN =
             Pattern.compile("[a-z][a-z0-9_-]{1,63}:[a-z][a-z0-9_-]{1,63}");
-    public static final FederationCurrencyId TNE_SETTLEMENT = new FederationCurrencyId("tne:the-newer-economy");
+    public static final FederationCurrencyId TNE_SETTLEMENT =
+            new FederationCurrencyId("tne:the-newer-economy");
 
     public FederationCurrencyId {
         Objects.requireNonNull(value, "value");

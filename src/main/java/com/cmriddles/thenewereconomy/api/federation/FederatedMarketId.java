@@ -6,7 +6,9 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public record FederatedMarketId(String value) {
-    private static final Pattern PATTERN = Pattern.compile("market:[a-z][a-z0-9_-]{1,63}:[a-z][a-z0-9_-]{1,63}:[a-z][a-z0-9_-]{1,63}");
+    private static final Pattern PATTERN =
+            Pattern.compile(
+                    "market:[a-z][a-z0-9_-]{1,63}:[a-z][a-z0-9_-]{1,63}:[a-z][a-z0-9_-]{1,63}");
 
     public FederatedMarketId {
         Objects.requireNonNull(value, "value");

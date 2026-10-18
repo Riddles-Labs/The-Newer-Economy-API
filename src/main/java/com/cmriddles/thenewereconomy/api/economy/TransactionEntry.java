@@ -15,7 +15,8 @@ import java.util.Objects;
  * @param scope configured scope where this entry committed
  * @param amount signed change: negative for a debit, positive for a credit; not a resulting balance
  */
-public record TransactionEntry(AccountRef account, String accountName, String currency, ScopeId scope, BigDecimal amount) {
+public record TransactionEntry(
+        AccountRef account, String accountName, String currency, ScopeId scope, BigDecimal amount) {
     public TransactionEntry {
         Objects.requireNonNull(account, "account");
         Objects.requireNonNull(accountName, "accountName");

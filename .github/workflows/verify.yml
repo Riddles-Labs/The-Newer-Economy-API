@@ -21,4 +21,4 @@ jobs:
       - name: Build and test API, sources and Javadoc
         run: ./mvnw -B clean verify
       - name: Compile and test the example against the published API
-        run: ./mvnw -B -f docs/plugin-api-example/pom.xml clean verify
+        run: ./mvnw -B -f examples/pom.xml clean verify

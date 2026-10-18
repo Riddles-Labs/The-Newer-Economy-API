@@ -33,7 +33,8 @@ final class FederationIdentifiersTest {
 
     @Test
     void normalizesMarketIds() {
-        FederatedMarketId marketId = new FederatedMarketId("Market:Civ-Network:Civ-Credits:The-Newer-Economy");
+        FederatedMarketId marketId =
+                new FederatedMarketId("Market:Civ-Network:Civ-Credits:The-Newer-Economy");
 
         assertThat(marketId.value()).isEqualTo("market:civ-network:civ-credits:the-newer-economy");
     }

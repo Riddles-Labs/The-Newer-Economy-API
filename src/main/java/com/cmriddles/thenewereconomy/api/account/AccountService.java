@@ -10,8 +10,8 @@ import java.util.concurrent.CompletionStage;
  * Asynchronous account creation, lookup, listing, and naming for one integration.
  *
  * <p>Get this service from {@link com.cmriddles.thenewereconomy.api.EconomyClient#accounts()}.
- * Operations follow the client's readiness and result rules. They do not issue money, edit
- * currency definitions, change the configured scope, or bypass ledger restrictions.
+ * Operations follow the client's readiness and result rules. They do not issue money, edit currency
+ * definitions, change the configured scope, or bypass ledger restrictions.
  */
 public interface AccountService {
     /**
@@ -23,8 +23,8 @@ public interface AccountService {
      * change it. This account key is independent of transaction idempotency keys. Fund the account
      * by transferring existing money from an authorized source account.
      *
-     * @param key case-insensitive key, 1 to 64 ASCII letters, digits, dots, underscores, colons or hyphens;
-     *            must start with a letter or digit and is normalized to lowercase
+     * @param key case-insensitive key, 1 to 64 ASCII letters, digits, dots, underscores, colons or
+     *     hyphens; must start with a letter or digit and is normalized to lowercase
      * @param displayName readable name, 1 to 64 characters with no control characters
      * @return the created or existing account, completed asynchronously
      */
@@ -39,8 +39,8 @@ public interface AccountService {
     CompletionStage<Result<Optional<Account>>> find(String key);
 
     /**
-     * Looks up a known ledger account UUID, such as a plugin account, Treasury, Rewards, or a player account.
-     * This does not create an account or list arbitrary player accounts.
+     * Looks up a known ledger account UUID, such as a plugin account, Treasury, Rewards, or a
+     * player account. This does not create an account or list arbitrary player accounts.
      *
      * @param accountId actual ledger account UUID
      * @return a successful optional account, empty when the UUID is unknown
@@ -50,8 +50,8 @@ public interface AccountService {
     }
 
     /**
-     * Resolves an explicit player or known ledger account reference.
-     * The reference's type does not change authoritative account ownership or state.
+     * Resolves an explicit player or known ledger account reference. The reference's type does not
+     * change authoritative account ownership or state.
      *
      * @param reference explicit player or ledger account reference
      * @return a successful optional account, empty when it is unknown
@@ -59,8 +59,8 @@ public interface AccountService {
     CompletionStage<Result<Optional<Account>>> find(AccountRef reference);
 
     /**
-     * Lists this integration's named accounts in stable order with bounded pagination.
-     * This does not return all players or other integrations' accounts.
+     * Lists this integration's named accounts in stable order with bounded pagination. This does
+     * not return all players or other integrations' accounts.
      *
      * @param limit maximum number of accounts to return, from 1 through 100
      * @param offset zero-based number of accounts to skip; must be nonnegative
@@ -69,8 +69,8 @@ public interface AccountService {
     CompletionStage<Result<List<Account>>> list(int limit, int offset);
 
     /**
-     * Changes the display name of one account owned by this integration.
-     * The stable account key, ledger UUID, balances, and historical ledger entries do not change.
+     * Changes the display name of one account owned by this integration. The stable account key,
+     * ledger UUID, balances, and historical ledger entries do not change.
      *
      * @param key this integration's existing account key
      * @param displayName new readable name, 1 to 64 characters with no control characters

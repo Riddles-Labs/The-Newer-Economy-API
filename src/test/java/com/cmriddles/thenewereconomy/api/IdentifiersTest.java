@@ -14,13 +14,19 @@ import org.junit.jupiter.api.Test;
 final class IdentifiersTest {
     @Test
     void invalidIdentifiersAreRejected() {
-        assertThatThrownBy(() -> new CurrencyId("Dollars!")).isInstanceOf(ValidationException.class);
+        assertThatThrownBy(() -> new CurrencyId("Dollars!"))
+                .isInstanceOf(ValidationException.class);
         assertThatThrownBy(() -> new ScopeId(" ")).isInstanceOf(ValidationException.class);
-        assertThatThrownBy(() -> new IdempotencyKey("bad key")).isInstanceOf(ValidationException.class);
-        assertThatThrownBy(() -> new SourceNamespace("1bad")).isInstanceOf(ValidationException.class);
-        assertThatThrownBy(() -> new FederationCurrencyId("coin")).isInstanceOf(ValidationException.class);
-        assertThatThrownBy(() -> new FederationCurrencyId("1bad:coin")).isInstanceOf(ValidationException.class);
-        assertThatThrownBy(() -> new FederationCurrencyId("tne:!")).isInstanceOf(ValidationException.class);
+        assertThatThrownBy(() -> new IdempotencyKey("bad key"))
+                .isInstanceOf(ValidationException.class);
+        assertThatThrownBy(() -> new SourceNamespace("1bad"))
+                .isInstanceOf(ValidationException.class);
+        assertThatThrownBy(() -> new FederationCurrencyId("coin"))
+                .isInstanceOf(ValidationException.class);
+        assertThatThrownBy(() -> new FederationCurrencyId("1bad:coin"))
+                .isInstanceOf(ValidationException.class);
+        assertThatThrownBy(() -> new FederationCurrencyId("tne:!"))
+                .isInstanceOf(ValidationException.class);
     }
 
     @Test

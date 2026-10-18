@@ -6,11 +6,11 @@ import java.util.Optional;
 /**
  * Outcome of an economy operation: exactly one successful value or one failure.
  *
- * <p>First check {@link #isSuccess()}. If true, {@link #value()} contains the result and
- * {@link #failure()} is null. Otherwise {@link #failure()} describes the problem and
- * {@link #value()} is null. The optional accessors offer the same information without null values.
- * Expected validation, balance, availability, and conflict failures use this result rather than
- * exceptional completion of a future.
+ * <p>First check {@link #isSuccess()}. If true, {@link #value()} contains the result and {@link
+ * #failure()} is null. Otherwise {@link #failure()} describes the problem and {@link #value()} is
+ * null. The optional accessors offer the same information without null values. Expected validation,
+ * balance, availability, and conflict failures use this result rather than exceptional completion
+ * of a future.
  *
  * @param <T> successful result type
  * @param value successful value, or null on failure
@@ -45,17 +45,23 @@ public record Result<T>(T value, Failure failure) {
         return new Result<>(null, Objects.requireNonNull(failure, "failure"));
     }
 
-    /** @return true when {@link #value()} is present; false when {@link #failure()} is present */
+    /**
+     * @return true when {@link #value()} is present; false when {@link #failure()} is present
+     */
     public boolean isSuccess() {
         return failure == null;
     }
 
-    /** @return the successful value, or an empty optional on failure */
+    /**
+     * @return the successful value, or an empty optional on failure
+     */
     public Optional<T> optionalValue() {
         return Optional.ofNullable(value);
     }
 
-    /** @return the failure details, or an empty optional on success */
+    /**
+     * @return the failure details, or an empty optional on success
+     */
     public Optional<Failure> optionalFailure() {
         return Optional.ofNullable(failure);
     }

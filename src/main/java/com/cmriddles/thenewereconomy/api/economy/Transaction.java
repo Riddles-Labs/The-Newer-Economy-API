@@ -21,6 +21,7 @@ public record Transaction(UUID transactionId, String currency, ScopeId scope, Bi
         currency = new CurrencyId(currency).value();
         Objects.requireNonNull(scope, "scope");
         Objects.requireNonNull(amount, "amount");
-        if (amount.signum() <= 0) throw new ValidationException("Transaction amount must be positive");
+        if (amount.signum() <= 0)
+            throw new ValidationException("Transaction amount must be positive");
     }
 }

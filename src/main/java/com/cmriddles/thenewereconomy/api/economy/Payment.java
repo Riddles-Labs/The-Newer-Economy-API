@@ -15,9 +15,11 @@ import java.util.Objects;
  * @param source account paying this amount
  * @param destination account receiving this amount
  * @param currency configured virtual currency ID, normalized to lowercase
- * @param amount positive exact decimal amount; the configured currency precision is checked at posting
+ * @param amount positive exact decimal amount; the configured currency precision is checked at
+ *     posting
  */
-public record Payment(AccountRef source, AccountRef destination, String currency, BigDecimal amount) {
+public record Payment(
+        AccountRef source, AccountRef destination, String currency, BigDecimal amount) {
     public Payment {
         Objects.requireNonNull(source, "source");
         Objects.requireNonNull(destination, "destination");

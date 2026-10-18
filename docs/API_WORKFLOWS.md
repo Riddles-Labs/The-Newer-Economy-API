@@ -1,5 +1,9 @@
 # Fund reservations, workflows, and scheduled payments
 
+Learn when to hold money, how to coordinate delivery, and how to schedule future payments.
+
+[Setup](getting-started.md) | [Guide index](API.md) | [Payments](payments.md) | [Account controls](API_ACCESS.md)
+
 These services are available from the same `EconomyClient` used for ordinary
 payments. They use the configured server scope and virtual currencies. They keep
 state in TNE storage across restarts; your plugin does not need database access.
@@ -11,7 +15,7 @@ var schedules = economy.schedules();
 ```
 
 The examples assume an existing `EconomyClient economy` and known player/account
-UUIDs. See [the API quick start](API.md) for dependency installation and service
+UUIDs. See [setup](getting-started.md) for dependency installation and service
 lookup. Calls return `CompletionStage<Result<T>>`. Check exceptional completion,
 then `result.isSuccess()`, before using `result.value()`. Never block a Paper or
 Folia game thread. Completion handlers can run on a worker; schedule inventory,

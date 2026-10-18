@@ -19,8 +19,13 @@ import java.util.UUID;
  * @param integrationName integration owning a plugin account, empty for other account types
  * @param key stable integration-local key for a plugin account, empty for other account types
  */
-public record Account(UUID id, String name, AccountType type, AccountState state,
-        Optional<String> integrationName, Optional<String> key) {
+public record Account(
+        UUID id,
+        String name,
+        AccountType type,
+        AccountState state,
+        Optional<String> integrationName,
+        Optional<String> key) {
     public Account {
         Objects.requireNonNull(id, "id");
         Objects.requireNonNull(name, "name");
@@ -31,7 +36,9 @@ public record Account(UUID id, String name, AccountType type, AccountState state
         if (name.isBlank()) throw new ValidationException("Account name must not be blank");
     }
 
-    /** @return a direct ledger reference for balance reads and transfers using this account */
+    /**
+     * @return a direct ledger reference for balance reads and transfers using this account
+     */
     public AccountRef ref() {
         return AccountRef.account(id);
     }

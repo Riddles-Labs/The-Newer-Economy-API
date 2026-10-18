@@ -5,21 +5,35 @@ authorized operator tools for named accounts, funded payments, atomic batches,
 receipts, history, and reversals. The API uses the same account and transaction
 types for any plugin; it does not depend on a particular game mode.
 
-Additional native service guides in this SDK cover invoices and explicit payer
+The accompanying guides cover invoices and explicit payer
 consent, accepted conversion quotes, physical-note delivery outcomes, filtered
 queries, native GUI opens, workflows, delegated access, refunds, and extensions.
-Start with [the developer guide](../API.md).
+Start with [the developer guide](../docs/API.md).
+
+## Read the example in this order
+
+1. [Balance command](src/main/java/example/TneApiExample.java): service lookup, a balance request, and a scheduled player message.
+2. [Account commands](src/main/java/example/PoolCommands.java): named accounts, explicit source/destination accounts, and saved payment keys.
+3. [Commerce commands](src/main/java/example/CommerceCommands.java): optional invoices, conversion, notes, queries, and native menus.
+4. [Recovery test](src/test/java/example/PaymentRecoveryTest.java): a lost response recovered from the original receipt without paying twice.
+
+The entry class registers all commands, but you only need the balance handler for
+your first lesson. The operator commands are demonstrations of trusted integration
+access; keep their permissions restricted on your test server.
+
+[Setup](../docs/getting-started.md) | [Payments](../docs/payments.md) | [Reference](../docs/reference.md)
 
 ## Build
 
-1. Install **JDK 25** and Maven.
+1. Install **JDK 25**. You can use the repository's Maven wrapper or your own Maven installation.
 2. In this example's directory (the directory containing its `pom.xml`), run:
 
    ```shell
-   mvn clean package
+   ../mvnw clean verify
    ```
 
-   Maven resolves the API from TNE's public Maven repository automatically;
+   On Windows, run `..\mvnw.cmd clean verify`. If you use installed Maven,
+   `mvn clean verify` works too. Maven resolves the API from TNE's public repository automatically;
    no manual API installation is required.
 
 3. Download the normal server JAR from
@@ -28,13 +42,8 @@ Start with [the developer guide](../API.md).
    `TNE-Economy-1.0.64.jar` in your Paper/Folia server's `plugins` directory.
    Start the server and run `/tneexamplebalance` as a player.
 
-As an alternative to repository resolution, use the SDK's API JAR or download
-`TNE-API-1.0.64.jar` from that release. In its directory, run the following once
-before building the example:
-
-```shell
-mvn install:install-file -Dfile=TNE-API-1.0.64.jar -DgroupId=com.cmriddles -DartifactId=the-newer-economy-api -Dversion=1.0.64 -Dpackaging=jar -DgeneratePom=true
-```
+For a downloaded API JAR instead of Maven resolution, follow
+[manual installation](../docs/reference.md#manual-api-jar-alternative).
 
 ## Try a named account
 
